@@ -28,6 +28,12 @@ from database import (
     clear_database
 )
 
+from pdf_generator import (
+    generate_devices_pdf,
+    generate_events_pdf,
+    generate_dossier_pdf
+)
+
 from monitor import monitor
 
 # Resolve directories cleanly
@@ -207,8 +213,12 @@ def reset_database():
 @app.route("/api/export/<export_type>")
 def export_data(export_type=None):
     """
-    Generate and stream RFC-compliant CSV files for device inventory or security events.
+    Generate and stream RFC-compliant CSV files or route to PDF exporter if requested.
     """
+    fmt = request.args.get("format", "").lower()
+    if fmt == "pdf":
+        return export_pdf(export_type)
+
     target = export_type or request.args.get("type", "events")
 
     output = io.StringIO()
@@ -256,6 +266,41 @@ def export_data(export_type=None):
         headers={
             "Content-Disposition": f"attachment; filename={filename}",
             "Content-Type": "text/csv; charset=utf-8"
+        }
+    )
+
+
+@app.route("/api/export/pdf")
+@app.route("/api/export/pdf/<export_type>")
+def export_pdf(export_type=None):
+    """
+    Generate and stream high-resolution, vector PDF reports (Device Inventory, Events, or Full Dossier).
+    """
+    from datetime import datetime
+    target = export_type or request.args.get("type", "dossier")
+    now_tag = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    if target == "devices":
+        devices_list = get_devices()
+        pdf_bytes = generate_devices_pdf(devices_list)
+        filename = f"netguard_device_inventory_{now_tag}.pdf"
+    elif target == "events":
+        events_list = get_events()
+        pdf_bytes = generate_events_pdf(events_list)
+        filename = f"netguard_security_events_{now_tag}.pdf"
+    else:  # dossier or full audit report
+        devices_list = get_devices()
+        events_list = get_events()
+        stats_data = get_stats()
+        pdf_bytes = generate_dossier_pdf(stats_data, devices_list, events_list)
+        filename = f"netguard_secops_dossier_{now_tag}.pdf"
+
+    return Response(
+        pdf_bytes,
+        mimetype="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename={filename}",
+            "Content-Type": "application/pdf"
         }
     )
 

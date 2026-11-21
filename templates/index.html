@@ -635,6 +635,10 @@
                                 </select>
                             </div>
 
+                            <a href="/api/export/pdf/devices" class="chrome-btn btn-primary btn-sm" id="exportDevicesPdfToolbarBtn" title="Download Official Devices PDF Report">
+                                <i data-lucide="file-text"></i> Download PDF
+                            </a>
+
                             <a href="/api/export/devices" class="chrome-btn btn-silver btn-sm" id="exportDevicesBtn" title="Export Devices to CSV">
                                 <i data-lucide="download"></i> Export CSV
                             </a>
@@ -713,6 +717,10 @@
                         </div>
 
                         <div class="toolbar-right-actions">
+                            <a href="/api/export/pdf/events" class="chrome-btn btn-danger btn-sm" id="exportEventsPdfToolbarBtn" title="Download Security Events PDF Audit Log">
+                                <i data-lucide="shield-alert"></i> Download PDF
+                            </a>
+
                             <a href="/api/export/events" class="chrome-btn btn-silver btn-sm" id="exportEventsBtn" title="Export Security Events to CSV">
                                 <i data-lucide="download"></i> Export CSV
                             </a>
@@ -834,16 +842,19 @@
                     <!-- Report 1: Device Inventory -->
                     <div class="metallic-stat-card report-box">
                         <div class="report-icon-box">
-                            <i data-lucide="file-spreadsheet"></i>
+                            <i data-lucide="file-text"></i>
                         </div>
                         <h4>Device Inventory Report</h4>
                         <p>Complete roster of detected IP addresses, physical MAC addresses, observed timestamps, and host telemetry.</p>
                         <div class="report-meta-row">
-                            <span>Format: RFC 4180 CSV</span>
+                            <span>Format: High-Res PDF & CSV</span>
                             <span>Target: Table 'devices'</span>
                         </div>
-                        <a href="/api/export/devices" class="chrome-btn btn-silver btn-full">
-                            <i data-lucide="download"></i> Download Devices CSV
+                        <a href="/api/export/pdf/devices" class="chrome-btn btn-primary btn-full" style="margin-bottom: 8px;">
+                            <i data-lucide="file-text"></i> Download Devices PDF
+                        </a>
+                        <a href="/api/export/devices" class="chrome-btn btn-silver btn-full btn-sm">
+                            <i data-lucide="download"></i> Download CSV
                         </a>
                     </div>
 
@@ -855,27 +866,33 @@
                         <h4>Security Events & Alerts</h4>
                         <p>Detailed incident log recording every discovery, reassignment, and high-severity ARP anomaly with timestamps.</p>
                         <div class="report-meta-row">
-                            <span>Format: RFC 4180 CSV</span>
+                            <span>Format: High-Res PDF & CSV</span>
                             <span>Target: Table 'events'</span>
                         </div>
-                        <a href="/api/export/events" class="chrome-btn btn-silver btn-full">
-                            <i data-lucide="download"></i> Download Events CSV
+                        <a href="/api/export/pdf/events" class="chrome-btn btn-danger btn-full" style="margin-bottom: 8px;">
+                            <i data-lucide="shield-alert"></i> Download Events PDF
+                        </a>
+                        <a href="/api/export/events" class="chrome-btn btn-silver btn-full btn-sm">
+                            <i data-lucide="download"></i> Download CSV
                         </a>
                     </div>
 
                     <!-- Report 3: Printable Executive Dossier -->
                     <div class="metallic-stat-card report-box">
                         <div class="report-icon-box">
-                            <i data-lucide="printer"></i>
+                            <i data-lucide="file-check"></i>
                         </div>
-                        <h4>Printable SecOps Dossier</h4>
-                        <p>Clean, printable metallic summary suitable for incident reviews, management briefings, and compliance audits.</p>
+                        <h4>Official SecOps Dossier</h4>
+                        <p>Comprehensive, multi-section compliance audit dossier with signature lines for examiners and security leads.</p>
                         <div class="report-meta-row">
-                            <span>Format: Browser Print / PDF</span>
-                            <span>Styling: @media print</span>
+                            <span>Format: Vector PDF / Print</span>
+                            <span>Styling: Executive Dossier</span>
                         </div>
-                        <button class="chrome-btn btn-primary btn-full" id="printReportBtn">
-                            <i data-lucide="printer"></i> Print / Save as PDF
+                        <a href="/api/export/pdf/dossier" class="chrome-btn btn-success btn-full" style="margin-bottom: 8px;">
+                            <i data-lucide="download"></i> Download Full Dossier PDF
+                        </a>
+                        <button class="chrome-btn btn-silver btn-full btn-sm" id="printReportBtn">
+                            <i data-lucide="printer"></i> Browser Print / Save
                         </button>
                     </div>
 
